@@ -1,0 +1,305 @@
+<html>
+<title>Annotation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<style>
+.mySlides {display:none;}
+
+
+img {
+  max-width: 600px;
+  height: auto;
+  margin-left:5px;
+}
+.radio{
+	display:none;
+	margin:4px;
+
+}
+
+label{
+	display:none;
+}
+
+.Row {
+    display: table;
+    width: 100%; /*Optional*/
+    table-layout: fixed; /*Optional*/
+    border-spacing: 10px; /*Optional*/
+}
+.Column {
+    display: table-cell;/*Optional*/
+    padding: 10px;
+    margin-left: 100px;
+    text-align:center;	
+}
+
+#downloadButton {
+  	margin:auto;
+  	display:block;
+  	margin-top:50px;
+  	margin-top:100px;
+  	font-family:proxima-nova, sans-serif ;
+	font-size: 15px;
+	color: #2F2F2F;
+	border-radius: 8px;
+	width: 20%;
+	height: 2.5em;
+}
+
+
+#startButton {
+  	margin:auto;
+  	display:block;
+  	font-family:proxima-nova, sans-serif ;
+	font-size: 15px;
+	color: #2F2F2F;
+	border-radius: 8px;
+	width: 20%;
+	height: 2.5em;
+}
+
+#buttonsDiv{
+  	text-align:center;	
+  	border-radius: 2px;
+
+}
+
+#nextButton{
+	font-size: 25px;
+}
+
+p {
+	margin-left:2em;
+}
+
+
+</style>
+<body>
+
+	<h2 id='title' class="w3-center">Annotation </h2>
+
+	<div class='Row'>
+		<div id='radio_eval_efficientnet' class="Column">
+		  <img id="target_image_efficientnet" class="mySlides" src=""  alt="">
+		  <label>
+		    <input type="radio" class="radio" value="1" name="val_efficientnet" />1</label>
+		  <label>
+		    <input type="radio" class="radio" value="2" name="val_efficientnet" />2</label>
+		  <label>
+		    <input type="radio" class="radio" value="3" name="val_efficientnet" />3</label>
+		   <label>
+		    <input type="radio" class="radio" value="4" name="val_efficientnet" />4</label>
+		  <label>
+		    <input type="radio" class="radio" value="5" name="val_efficientnet" />5</label>
+		</div>
+
+		<div id='radio_eval_dnet201' class="Column">
+			<img id="target_image_dnet201" class="mySlides" src="" alt="">
+		  <label>
+		    <input type="radio" class="radio" value="1" name="val_dnet201" />1</label>
+		  <label>
+		    <input type="radio" class="radio" value="2" name="val_dnet201" />2</label>
+		  <label>
+		    <input type="radio" class="radio" value="3" name="val_dnet201" />3</label>
+		   <label>
+		    <input type="radio" class="radio" value="4" name="val_dnet201" />4</label>
+		  <label>
+		    <input type="radio" class="radio" value="5" name="val_dnet201" />5</label>
+		</div>
+
+		<div id='radio_eval_resnext101' class="Column">
+			 <img id="target_image_resnext101" class="mySlides" src="" alt="">
+		  <label>
+		    <input type="radio" class="radio" value="1" name="val_resnext101" />1</label>
+		  <label>
+		    <input type="radio" class="radio" value="2" name="val_resnext101" />2</label>
+		  <label>
+		    <input type="radio" class="radio" value="3" name="val_resnext101" />3</label>
+		   <label>
+		    <input type="radio" class="radio" value="4" name="val_resnext101" />4</label>
+		  <label>
+		    <input type="radio" class="radio" value="5" name="val_resnext101" />5</label>
+		</div>
+	</div>
+
+
+	<div id='buttonsDiv'>
+		 <!--<button class="button" id="next" onclick="change(-1)">&#10094;</button>-->
+		 <button class="button" id="nextButton" onclick="change(1)">&#10095;</button>
+	</div>
+
+	<br>
+	<br>
+
+	<p>Please indicate whether the depicted labels (yellow text) fit to the depicted photographs: </p> 
+	<p>The results ... </p> 
+	<p>1 - Don't fit to the photograph at all </p> 
+	<p>2 - Mostly don't fit </p> 
+	<p>3 - Fit partially </p> 
+	<p>4 - Fit mostly </p> 
+	<p>5 - Fit perfectly</p> 
+
+	<button class="button" id="startButton" onclick="initialize()" >START</button>
+	<button class="button" id="downloadButton" onclick="download()">SUBMIT</button>
+
+	<script type="text/javascript" src="./images_annotations.js"></script>
+	<script type="text/javascript" src="./images_names.js"></script>
+	<script type="text/javascript" src="fileServer.js"></script>
+
+	<script>
+		var start = true
+		var slideIndex = -1;
+		var indexMax = 99;
+		var indexMin = 0;
+		var vectorScore_efficientnet = new Array(indexMax)
+		var vectorScore_dnet201 = new Array(indexMax)
+		var vectorScore_resnext101 = new Array(indexMax)
+
+		var images_names_list = images_names.split(',');
+		var radios_efficientnet = document.getElementsByName('val_efficientnet');
+		var radios_dnet201 = document.getElementsByName('val_dnet201');
+		var radios_resnext101 = document.getElementsByName('val_resnext101');
+
+		function initialize() {
+			if (start) {
+				slideIndex = 0;
+				start = false
+				var image = document.getElementById("target_image_efficientnet");
+				if (slideIndex < indexMax) {
+					image.src = "images/ENetB8-" + images_names_list[slideIndex];
+					image.style.display = "block";
+				}
+
+				var image = document.getElementById("target_image_dnet201");
+				if (slideIndex < indexMax) {
+					image.src = "images/dnet201-" + images_names_list[slideIndex];
+					image.style.display = "block";
+				}
+
+				var image = document.getElementById("target_image_resnext101");
+				if (slideIndex < indexMax) {
+					image.src = "images/ResNeXT101-" + images_names_list[slideIndex];
+					image.style.display = "block";
+				}
+
+				/*make radio visible*/
+				var radios = document.getElementsByClassName("radio");
+				for (var i = 0; i < radios.length; i++) {
+		      		radios[i].style.display = "inline";
+		   		}
+
+		   		var labels = document.getElementsByTagName("label");
+				for (var i = 0; i < labels.length; i++) {
+		      		labels[i].style.display = "inline";
+		   		}
+
+		   		var button = document.getElementById("startButton");
+				button.style.display = "none";
+
+
+				/*vectors initialization*/
+				for (var i = 0; i < indexMax; i++){
+					vectorScore_efficientnet[i] = 0
+					vectorScore_dnet201[i] = 0
+					vectorScore_resnext101[i] = 0
+				}
+
+				var title = document.getElementById("title");
+				slideIndexPlus = slideIndex + 1
+				indexMaxPlus = indexMax + 1
+				title.innerHTML = "Anntotation (" + slideIndexPlus + "/" + indexMaxPlus + ")";
+				
+			}
+
+
+
+		}
+
+		function change(n) {
+		
+			if (getRadiovalue(radios_efficientnet) != 0 && getRadiovalue(radios_dnet201) != 0 && getRadiovalue(radios_resnext101) != 0) {
+				radio_value = getRadiovalue(radios_efficientnet)
+				vectorScore_efficientnet[slideIndex] = parseInt(radio_value)
+
+				radio_value = getRadiovalue(radios_dnet201)
+				vectorScore_dnet201[slideIndex] = parseInt(radio_value)
+
+				radio_value = getRadiovalue(radios_resnext101)
+				vectorScore_resnext101[slideIndex] = parseInt(radio_value)	
+
+				uncheck(radios_efficientnet);
+				uncheck(radios_dnet201);
+				uncheck(radios_resnext101);
+
+				
+				if (slideIndex < indexMax) {
+					slideIndex += n;
+
+					var image = document.getElementById("target_image_efficientnet"); 
+					image.src = "images/ENetB8-" + images_names_list[slideIndex];
+					image.style.display = "block";
+					
+					var image = document.getElementById("target_image_dnet201");
+					image.src = "images/dnet201-" + images_names_list[slideIndex];
+					image.style.display = "block";
+
+					var image = document.getElementById("target_image_resnext101");
+					image.src = "images/ResNeXT101-" + images_names_list[slideIndex];
+					image.style.display = "block";
+
+					var title = document.getElementById("title");
+					slideIndexPlus = slideIndex + 1
+					indexMaxPlus = indexMax + 1
+					title.innerHTML = "Annotation (" + slideIndexPlus + "/" + indexMaxPlus + ")";
+				} 
+
+			}
+			
+
+		}
+
+
+		function download(){
+			radio_value = getRadiovalue(radios_efficientnet)
+			vectorScore_efficientnet[slideIndex] = parseInt(radio_value)
+
+			radio_value = getRadiovalue(radios_dnet201)
+			vectorScore_dnet201[slideIndex] = parseInt(radio_value)
+
+			radio_value = getRadiovalue(radios_resnext101)
+			vectorScore_resnext101[slideIndex] = parseInt(radio_value)	
+
+			var blob = new Blob(vectorScore_efficientnet, {type: "text/plain;charset=utf-8"});
+			saveAs(blob, "result_efficientnet.txt");
+
+			var blob = new Blob(vectorScore_dnet201, {type: "text/plain;charset=utf-8"});
+			saveAs(blob, "result_dnet201.txt");
+
+			var blob = new Blob(vectorScore_resnext101, {type: "text/plain;charset=utf-8"});
+			saveAs(blob, "result_resnext101.txt");
+
+		}
+
+		function uncheck(radios) {
+		   for (var i = 0; i < radios.length; i++) {
+		      radios[i].checked = false;
+		   }
+		}
+
+
+		function getRadiovalue(radios){
+			var value = 0
+			for (var i = 0, length = radios.length; i < length; i++) {
+			  if (radios[i].checked) {
+			    value = radios[i].value
+			    break;
+			  }
+			}
+			return value
+		}
+
+	</script>
+
+	</body>
+</html>
