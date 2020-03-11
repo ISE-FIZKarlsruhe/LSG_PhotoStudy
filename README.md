@@ -7,7 +7,7 @@ All photographs are licenced under CC-BY-2.0
 This study takes approximately 1 hour to complete. 
 
 ### Set Up 
-1. Download all files in the repository [LSG_PhotoStudy](https://github.com/ISE-FIZKarlsruhe/LSG_PhotoStudy).
+1. Download all files in the repository [LSG_PhotoStudy](https://github.com/ISE-FIZKarlsruhe/LSG_PhotoStudy) ([Zip File](https://github.com/ISE-FIZKarlsruhe/LSG_PhotoStudy/archive/master.zip))
 2. Extract the `.zip` file. You should now have:  
   * `annotator.html`  
   * `fileServer.js`  
