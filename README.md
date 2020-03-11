@@ -3,7 +3,8 @@ All photographs are licenced under CC-BY-2.0
 
 ## Instructions
 Before beginning the study, please read all instructions carefully.  
-This study should be completed using Firefox.
+This study should be completed using Firefox.  
+This study takes approximately 1 hour to complete. 
 
 1. Download all files in the repository [LSG_PhotoStudy](https://github.com/ISE-FIZKarlsruhe/LSG_PhotoStudy).
 2. Extract the `.zip` file. You should now have:  
